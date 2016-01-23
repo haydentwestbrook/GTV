@@ -5,15 +5,23 @@ import android.content.Intent;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.VideoView;
 
 public class ActivitySplash extends Activity {
 
+    private String videoUri;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Intent video = getIntent();
+        Bundle bundle = video.getExtras();
+        videoUri = bundle.getString("Uri");
+
         try {
             splashPlayer();
         } catch (Exception ex) {
@@ -28,10 +36,10 @@ public class ActivitySplash extends Activity {
 
     public void splashPlayer() {
         VideoView videoHolder = new VideoView(this);
+        videoHolder.setVideoURI(Uri.parse(Environment.getRootDirectory().getAbsolutePath() + "/myVideo.mp4"));
         setContentView(videoHolder);
-        Uri video = Uri.parse("android.resource://" + getPackageName() + "/"
-                + R.raw.splash);
-        videoHolder.setVideoURI(video);
+        //Uri video = Uri.parse(videoUri);
+        //videoHolder.setVideoURI(video);
         videoHolder.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             public void onCompletion(MediaPlayer mp) {
                 jumpMain();

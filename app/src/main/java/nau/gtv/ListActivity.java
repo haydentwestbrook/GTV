@@ -1,5 +1,6 @@
 package nau.gtv;
 
+import android.Manifest;
 import android.app.LoaderManager;
 import android.content.Context;
 import android.content.Intent;
@@ -16,6 +17,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -87,12 +89,12 @@ public class ListActivity extends AppCompatActivity implements SwipeRefreshLayou
          * As animation won't start on onCreate, post runnable is used
          */
         swipeRefreshLayout.post(new Runnable() {
-            @Override
-            public void run() {
-                swipeRefreshLayout.setRefreshing(true);
-                fetchVideos();
-            }
-        }
+                                    @Override
+                                    public void run() {
+                                        swipeRefreshLayout.setRefreshing(true);
+                                        fetchVideos();
+                                    }
+                                }
         );
     }
 
@@ -109,7 +111,7 @@ public class ListActivity extends AppCompatActivity implements SwipeRefreshLayou
         videoList = (ListView) findViewById(R.id.videos_list);
 
         List<VideoFile> videos = new ArrayList<VideoFile>();
-        videos.add(new VideoFile(0, 0, "Video One", Uri.parse("http://www.google.com")));
+        videos.add(new VideoFile(0, 0, "Video One", Uri.parse("content://media/external/video/media/81790")));
 
         // This is the array adapter, it takes the context of the activity as a
         // first parameter, the type of list view as a second parameter and your
@@ -121,6 +123,19 @@ public class ListActivity extends AppCompatActivity implements SwipeRefreshLayou
     }
 
     private class VideoAdapter extends ArrayAdapter<VideoFile> {
+
+        private AdapterView.OnItemClickListener onListClick= new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                Intent video = new Intent(ListActivity.this, ActivitySplash.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("Uri", getItem(position).getUri().toString());
+                video.putExtras(bundle);
+                startActivity(video);
+            }
+        };
 
         public VideoAdapter(Context context, int textViewResourceId) {
             super(context, textViewResourceId);
@@ -142,13 +157,6 @@ public class ListActivity extends AppCompatActivity implements SwipeRefreshLayou
 
             VideoFile p = getItem(position);
 
-            v.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    //Play the video
-                }
-            });
-
             if(p != null) {
                 TextView text = (TextView) v.findViewById(R.id.video_name);
 
@@ -156,6 +164,9 @@ public class ListActivity extends AppCompatActivity implements SwipeRefreshLayou
                     text.setText(p.getId());
                 }
             }
+
+            ListView videoList = (ListView) findViewById(R.id.videos_list);
+            videoList.setOnItemClickListener(onListClick);
 
             return v;
         }

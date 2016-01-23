@@ -2,12 +2,15 @@ package nau.gtv;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
+
+import java.io.File;
 
 public class VideoActivity extends AppCompatActivity {
 
@@ -49,6 +52,10 @@ public class VideoActivity extends AppCompatActivity {
         Intent intent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
         intent.putExtra("android.intent.extra.durationLimit", CAMERA_MAX_DURATION);
         intent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1); // set the video image quality to high
+        File mediaFile = new File(Environment.getRootDirectory().getAbsolutePath()
+                                    + "/myVideo.mp4");
+        Uri videoUri = Uri.fromFile(mediaFile);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, videoUri);
 
         // start the Video Capture Intent
         startActivityForResult(intent, CAPTURE_VIDEO_ACTIVITY_REQUEST_CODE);

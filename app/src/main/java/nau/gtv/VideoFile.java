@@ -32,4 +32,6 @@ public class VideoFile {
     public long getLongitude(){
         return this.longitude;
     }
+
+    public Uri getUri() {return this.storeLocation; }
 }
