@@ -1,5 +1,7 @@
 package nau.gtv;
 
+import android.net.Uri;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -12,11 +14,13 @@ public class VideoFile {
     private long longitude;
     //to uniquely identify each video
     private String idString;
+    private Uri storeLocation;
 
-    public VideoFile(long latitude, long longitude, String idString){
+    public VideoFile(long latitude, long longitude, String idString, Uri location){
         this.latitude = latitude;
         this.longitude = longitude;
         this.idString = idString;
+        this.storeLocation = location;
     }
 
     public long getLatitude(){
