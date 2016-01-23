@@ -141,7 +141,7 @@ public class ListActivity extends AppCompatActivity implements SwipeRefreshLayou
             v.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    playVideo(p);
+                    //Play the video
                 }
             });
 
@@ -154,10 +154,6 @@ public class ListActivity extends AppCompatActivity implements SwipeRefreshLayou
             }
 
             return v;
-        }
-
-        private void playVideo(VideoFile video) {
-
         }
     }
 }
