@@ -1,31 +1,35 @@
 package nau.gtv;
 
-import android.content.Intent;
-import android.net.Uri;
-import android.provider.MediaStore;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
-public class VideoActivity extends AppCompatActivity {
+public class ListActivity extends AppCompatActivity {
 
-    private static final int CAPTURE_VIDEO_ACTIVITY_REQUEST_CODE = 200;
-    private Uri fileUri;
+    private DrawerLayout drawerLayout;
+    private ListView drawerList;
+    private String[] settingsList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_video);
 
-        Intent intent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
-        //fileUri = getOutputMediaFileUri(MEDIA_TYPE_VIDEO);  // create a file to save the video
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);  // set the image file name
-        intent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1); // set the video image quality to high
+        /*
+        ////////////// SETTINGS MENU //////////////////
+        drawerLayout = (DrawerLayout) findViewById(R.id.settings_layout);
+        drawerList = (ListView) findViewById(R.id.settings_list);
 
-
-        // start the Video Capture Intent
-        startActivityForResult(intent, CAPTURE_VIDEO_ACTIVITY_REQUEST_CODE);
+        // Set the adapter for the list view
+        drawerList.setAdapter(new ArrayAdapter<String>(this,
+                R.layout.settings_item_layout, settingsList));
+        // Set the list's click listener
+        drawerList.setOnItemClickListener(new DrawerItemClickListener());
+        */
     }
 
     @Override
