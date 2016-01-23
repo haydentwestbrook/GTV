@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">GTV</string>
-
-    <string name="hello_world">Hello world!</string>
+    <string name="new_video">Create Video</string>
     <string name="action_settings">Settings</string>
 </resources>
