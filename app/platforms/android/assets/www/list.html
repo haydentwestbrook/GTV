@@ -6,13 +6,16 @@
 </head>
 <body>
 
+<ul id="videosList"></ul>
 <button id="takeVideo" onclick="startCamera()">Take Video</button>
 
 <script type="text/javascript" src="cordova.js"></script>
 <script type="text/javascript" src="js/index.js"></script>
 <script>
+    var videosFile;
+
     function startCamera() {
-        navigator.device.capture.captureVideo(captureSuccess, captureError, {limit: 1});
+        navigator.device.capture.captureVideo(captureSuccess, captureError, {limit: 1, duration: 60});
     }
 
     function captureError(e) {
@@ -21,6 +24,49 @@
 
     function captureSuccess(s) {
         console.log("Success");
+        saveVideo(s[0]);
+    }
+
+    function saveVideo(videoUri) {
+        alert("SAVING VIDEO");
+        window.resolveLocalFileSystemURL(cordova.file.dataDirectory, function(dir) {
+            console.log("got main dir",dir);
+            dir.getFile("videos.json", {create:true}, function(file) {
+                videosFile = file;
+                writeLog("This is a test.");
+            });
+        });
+    }
+
+    function writeLog(str) {
+        alert("WRITING");
+        if(!videosFile) return;
+        alert("FINISHED WRITING");
+        var log = str + " [test]\n";
+        console.log("going to log "+log);
+        videosFile.createWriter(function(fileWriter) {
+
+            fileWriter.seek(fileWriter.length);
+
+            var blob = new Blob([log], {type:'text/plain'});
+            fileWriter.write(blob);
+            console.log("ok, in theory i worked");
+        }, fail);
+        justForTesting();
+    }
+
+    function justForTesting() {
+        alert("READING");
+        videosFile.file(function(file) {
+
+            var reader = new FileReader();
+
+            reader.onloadend = function(e) {
+                alert(this.result);
+            }
+
+            reader.readAsText(file);
+        });
     }
 </script>
 </body>
