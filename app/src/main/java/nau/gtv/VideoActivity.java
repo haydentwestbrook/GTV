@@ -69,11 +69,13 @@ public class VideoActivity extends AppCompatActivity {
 
             } else if (resultCode == RESULT_CANCELED) {
                 // User cancelled the video capture
-                this.finish();
-
+                Toast.makeText(this, "Canceled video", Toast.LENGTH_LONG).show();
+                Intent listActivity = new Intent(VideoActivity.this, ListActivity.class);
+                startActivity(listActivity);
             } else {
                 // Video capture failed, advise user
-                finish();
+                Intent listActivity = new Intent(VideoActivity.this, ListActivity.class);
+                startActivity(listActivity);
                 Toast.makeText(this, "Failed to capture video.", Toast.LENGTH_LONG).show();
             }
         }

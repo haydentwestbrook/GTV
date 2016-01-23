@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
 import android.view.Menu;
@@ -22,8 +23,9 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ListActivity extends AppCompatActivity {
+public class ListActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener {
 
+    private SwipeRefreshLayout swipeRefreshLayout;
     private ListView videoList;
     private Button newVideo;
 
@@ -57,6 +59,14 @@ public class ListActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * This method is called when swipe refresh is pulled down
+     */
+    @Override
+    public void onRefresh() {
+        fetchVideos();
+    }
+
     private void populateList() {
         videoList = (ListView) findViewById(R.id.videos_list);
 
@@ -73,11 +83,38 @@ public class ListActivity extends AppCompatActivity {
                 videos);
 
         videoList.setAdapter(arrayAdapter);
+
+        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh_layout);
+        swipeRefreshLayout.setOnRefreshListener(this);
+
+        /**
+         * Showing Swipe Refresh animation on activity create
+         * As animation won't start on onCreate, post runnable is used
+         */
+        swipeRefreshLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                swipeRefreshLayout.setRefreshing(true);
+                fetchVideos();
+            }
+        }
+        );
     }
 
     public void onNewVideoClick(View v) {
         //Start camera activity
         Intent videoActivity = new Intent(ListActivity.this, VideoActivity.class);
         startActivity(videoActivity);
+    }
+
+    private void fetchVideos() {
+        // showing refresh animation before making http call
+        swipeRefreshLayout.setRefreshing(true);
+        try {
+            wait(1000);
+        } catch (Exception e) {
+
+        }
+        swipeRefreshLayout.setRefreshing(false);
     }
 }
