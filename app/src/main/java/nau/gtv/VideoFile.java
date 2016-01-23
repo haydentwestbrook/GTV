@@ -23,6 +23,8 @@ public class VideoFile {
         this.storeLocation = location;
     }
 
+    public String getId() {return this.idString; }
+
     public long getLatitude(){
         return this.latitude;
     }

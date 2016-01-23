@@ -1,23 +1,28 @@
 package nau.gtv;
 
 import android.app.LoaderManager;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.SimpleCursorAdapter;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -68,24 +73,10 @@ public class ListActivity extends AppCompatActivity implements SwipeRefreshLayou
     }
 
     private void populateList() {
-        videoList = (ListView) findViewById(R.id.videos_list);
-
-        List<String> videos = new ArrayList<String>();
-        videos.add("Video One");
-        videos.add("Video Two");
-
-        // This is the array adapter, it takes the context of the activity as a
-        // first parameter, the type of list view as a second parameter and your
-        // array as a third parameter.
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
-                this,
-                android.R.layout.simple_list_item_1,
-                videos);
-
-        videoList.setAdapter(arrayAdapter);
 
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh_layout);
         swipeRefreshLayout.setOnRefreshListener(this);
+        fetchVideos();
 
         /**
          * Showing Swipe Refresh animation on activity create
@@ -110,11 +101,63 @@ public class ListActivity extends AppCompatActivity implements SwipeRefreshLayou
     private void fetchVideos() {
         // showing refresh animation before making http call
         swipeRefreshLayout.setRefreshing(true);
-        try {
-            wait(1000);
-        } catch (Exception e) {
+
+        videoList = (ListView) findViewById(R.id.videos_list);
+
+        List<VideoFile> videos = new ArrayList<VideoFile>();
+        videos.add(new VideoFile(0, 0, "Video One", Uri.parse("http://www.google.com")));
+
+        // This is the array adapter, it takes the context of the activity as a
+        // first parameter, the type of list view as a second parameter and your
+        // array as a third parameter.
+        VideoAdapter videoAdapter = new VideoAdapter(this, R.layout.row_layout, videos);
+        videoList.setAdapter(videoAdapter);
+
+        swipeRefreshLayout.setRefreshing(false);
+    }
+
+    private class VideoAdapter extends ArrayAdapter<VideoFile> {
+
+        public VideoAdapter(Context context, int textViewResourceId) {
+            super(context, textViewResourceId);
+        }
+
+        public VideoAdapter(Context context, int resource, List<VideoFile> items) {
+            super(context, resource, items);
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            View v = convertView;
+
+            if (v == null) {
+                LayoutInflater vi;
+                vi = LayoutInflater.from(getContext());
+                v = vi.inflate(R.layout.row_layout, null);
+            }
+
+            VideoFile p = getItem(position);
+
+            v.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    playVideo(p);
+                }
+            });
+
+            if(p != null) {
+                TextView text = (TextView) v.findViewById(R.id.video_name);
+
+                if(text != null) {
+                    text.setText(p.getId());
+                }
+            }
+
+            return v;
+        }
+
+        private void playVideo(VideoFile video) {
 
         }
-        swipeRefreshLayout.setRefreshing(false);
     }
 }
