@@ -7,6 +7,7 @@
   <script src="//code.jquery.com/jquery-1.10.2.min.js"></script>
   <script src="//code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
   <script>
+  
 	$(document).on("pagecreate","#pageone",function(){
 		$("p").on("swiperight",function(){
 			var url = document.location.href;
@@ -19,11 +20,11 @@
 			//return
 			if (url == "index.html")
 			{
-				window.location.replace("list.html");
+				$.mobile.changePage('list.html');
 			}
 			if (url == "list.html")
 			{
-				window.location.replace("index.html");
+				$.mobile.changePage('index.html');
 			}
 		});
 	});
