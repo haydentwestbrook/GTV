@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+
+<button id="takeVideo" onclick="startCamera()">Take Video</button>
+
+<script type="text/javascript" src="cordova.js"></script>
+<script type="text/javascript" src="js/index.js"></script>
+<script>
+    function startCamera() {
+        navigator.device.capture.captureVideo(captureSuccess, captureError, {limit: 1});
+    }
+
+    function captureError(e) {
+        console.log("capture error");
+    }
+
+    function captureSuccess(s) {
+        console.log("Success");
+    }
+</script>
+</body>
+</html>
