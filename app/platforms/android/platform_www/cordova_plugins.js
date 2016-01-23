@@ -37,13 +37,28 @@ module.exports = [
         "clobbers": [
             "CameraPopoverHandle"
         ]
+    },
+    {
+        "file": "plugins/cordova-plugin-geolocation/www/android/geolocation.js",
+        "id": "cordova-plugin-geolocation.geolocation",
+        "pluginId": "cordova-plugin-geolocation",
+        "clobbers": [
+            "navigator.geolocation"
+        ]
+    },
+    {
+        "file": "plugins/cordova-plugin-geolocation/www/PositionError.js",
+        "id": "cordova-plugin-geolocation.PositionError",
+        "pluginId": "cordova-plugin-geolocation",
+        "runs": true
     }
 ];
 module.exports.metadata = 
 // TOP OF METADATA
 {
     "cordova-plugin-whitelist": "1.2.1",
-    "cordova-plugin-camera": "2.1.0"
+    "cordova-plugin-camera": "2.1.0",
+    "cordova-plugin-geolocation": "2.1.1-dev"
 }
 // BOTTOM OF METADATA
 });
