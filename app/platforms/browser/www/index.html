@@ -8,6 +8,28 @@
   <script src="//code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
   <script>
 	$(document).on("pagecreate","#pageone",function(){
+		$("p").on("swiperight",function(){
+			var url = document.location.href;
+			//this removes the anchor at the end, if there is one
+			url = url.substring(0, (url.indexOf("#") == -1) ? url.length : url.indexOf("#"));
+			//this removes the query after the file name, if there is one
+			url = url.substring(0, (url.indexOf("?") == -1) ? url.length : url.indexOf("?"));
+			//this removes everything before the last slash in the path
+			url = url.substring(url.lastIndexOf("/") + 1, url.length);
+			//return
+			if (url == "index.html")
+			{
+				window.location.replace("list.html");
+			}
+			if (url == "list.html")
+			{
+				window.location.replace("index.html");
+			}
+		});
+	});
+
+  /*
+	$(document).on("pagecreate","#pageone",function(){
 	  $("p").on("swipe",function(){
 		$("span").text("Swipe detected!");
 		var url = document.location.href;
@@ -28,13 +50,13 @@
 		}
 	  });                       
 	});
+	*/
 </script>
 </head>
 <body>
 
  
  <div data-role="page" id="pageone">
-
   <div data-role="main" class="ui-content">
     <p>Swipe this text or in the box below.</p>
     <p style="border:1px solid black;height:200px;width:200px;"></p>
