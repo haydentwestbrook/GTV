@@ -11,7 +11,7 @@ public class HelperFuntions {
         double long2 = Math.toRadians(y2);
         double deltaPhi = lat2 - lat1;
         double deltaLamda = long2 -long1;
-        double a = Math.sin(deltaPhi/2) * Math.sin(deltaPhi/2) + Math.cos(lat1) * Math.cos(lat2) * Math.sin(deltaLamda/2) * Math.sin(deltaLamda/2)
+        double a = Math.sin(deltaPhi/2) * Math.sin(deltaPhi/2) + Math.cos(lat1) * Math.cos(lat2) * Math.sin(deltaLamda/2) * Math.sin(deltaLamda/2);
         double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
         return radius * c;
     }
