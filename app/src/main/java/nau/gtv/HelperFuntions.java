@@ -1,6 +1,7 @@
 package nau.gtv;
 import java.lang.Math;
-
+import android.content.Context;
+import android.media.MediaPlayer;
 public class HelperFuntions {
     public double distance(double x1, double y1, double x2, double y2)
     {
@@ -15,4 +16,6 @@ public class HelperFuntions {
         double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
         return radius * c;
     }
+
+
 }
